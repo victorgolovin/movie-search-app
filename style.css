@@ -1,3 +1,29 @@
 body {
     background-color: black;
 }
+
+.movie-search-app {
+    display: flex;
+    justify-content: center;
+    margin-top: 102px;
+    gap: 24px;
+}
+
+.movie-search-app-input {
+    height: 60px;
+    width: 500px;
+    font-size: 32px;
+    line-height: 39px;
+}
+
+.movie-search-app-input:focus {
+    outline: none;
+}
+
+.movie-search-app-button {
+    width: 250px;
+    font-size: 32px;
+    line-height: 39px;
+    background-color: #0094FF;
+    cursor: pointer;
+}
