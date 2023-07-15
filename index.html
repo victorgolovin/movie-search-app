@@ -6,21 +6,26 @@
     <title>API</title>
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="movie-search-app">
-        <input 
-        id="movie-search-app-input"
-        class="movie-search-app-input"
-        type="text"
-        placeholder="Название фильма">
-
-        <button id="movie-search-app-button" class="movie-search-app-button">Найти</button>
+    <div id="movie-search-app-hide" class="movie-search-app">
+        <div class="movie-search-app-inner">
+            <input 
+            id="movie-search-app-input"
+            class="movie-search-app-input"
+            type="text"
+            placeholder="Название фильма">
+    
+            <button id="movie-search-app-button" class="movie-search-app-button">Найти</button>
+        </div>
+    
+        <div id="movie-search-validation" class="movie-search-validation"></div>
+    
+        <ul id="movie-search-list" class="movie-search-list"></ul>
     </div>
-
-    <output id="movie-search-output" class="movie-search-output"></output>
-
-    <ul id="movie-search-list" class="movie-search-list"></ul>
 
     <div id="movie-search-card" class="movie-search-card"></div>
 

@@ -1,67 +1,68 @@
-const MOVIE_SEARCH_TEXT_NOT_FOUND = 'Films not found';
-const MOVIE_SEARCH_TEXT_NOT_FOUND_FILMS = "movie-search-output";
+const MOVIE_SEARCH_TEXT_NOT_FOUND = "Фильм не найден";
+const MOVIE_SEARCH_TEXT_FILMS_NOT_FOUND = "movie-search-validation";
 
+const movieSearchInputNode = document.getElementById("movie-search-app-input");
+const movieSearchButtonNode = document.getElementById("movie-search-app-button");
+const movieSearchValidationNode = document.getElementById("movie-search-validation");
+const movieSearchListNode = document.getElementById("movie-search-list");
+const moviesSearchCardNode = document.getElementById("movie-search-card");
+const movieSearchHideNode = document.getElementById("movie-search-app-hide");
 
-const movieSearchInputNode = document.getElementById("movie-search-app-input")
-const movieSearchButtonNode = document.getElementById("movie-search-app-button")
-const movieSearchOutputNode = document.getElementById("movie-search-output")
-const movieSearchListNode = document.getElementById("movie-search-list")
-const moviesSearchCardNode = document.getElementById("movie-search-card")
+const movieSearchHandler = () => {
+  const searchMovie = movieSearchInputNode.value.trim();
+  if (!searchMovie) {
+    movieSearchValidationNode.classList.add(MOVIE_SEARCH_TEXT_FILMS_NOT_FOUND);
+    return (movieSearchValidationNode.innerText = MOVIE_SEARCH_TEXT_NOT_FOUND);
+  }
 
+  if (searchMovie) {
+    movieSearchGetMovies(searchMovie);
+    movieSearchValidationNode.innerText = "";
+  }
 
+  clearSearchInput();
+};
 
-const getMovieFromUser = () => {
-    const searchMovie = (movieSearchInputNode.value).trim();
-    if (!searchMovie) {
-        clearSearchInput(movieSearchInputNode);
-        movieSearchOutputNode.classList.add(MOVIE_SEARCH_TEXT_NOT_FOUND_FILMS);
-      return movieSearchOutputNode.innerText = MOVIE_SEARCH_TEXT_NOT_FOUND;
-    } 
-    
-    if (searchMovie) {
-      loadMovies(searchMovie);
-      movieSearchOutputNode.innerText = '';
-      clearSearchInput(movieSearchInputNode);
-    };
-  };
-
-const clearSearchInput = (element) => {
-    element.value = '';
+const clearSearchInput = () => {
+    movieSearchInputNode.value = "";
 };
 
 const movieSearchGetMovies = (searchMovie) => {
-    fetch(`https://www.omdbapi.com/?s=${searchMovie}&apikey=8a6b6056`)
-      .then(response => response.json())
-      .then((data) => {
-        if (data.Response) {
-          renderMoviesList(data);
-        }
-        if  (!data.Response) {
-          outputNode.classList.add(MOVIE_SEARCH_TEXT_NOT_FOUND_FILMS);
-          return outputNode.innerText = MOVIE_SEARCH_TEXT_NOT_FOUND;
-        }
-      })
-  };
+  fetch(`https://www.omdbapi.com/?s=${searchMovie}&apikey=8a6b6056`)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.Response) {
+        renderMoviesList(data);
+      }
+      if (!data.Response) {
+        outputNode.classList.add(MOVIE_SEARCH_TEXT_FILMS_NOT_FOUND);
+        return (outputNode.innerText = MOVIE_SEARCH_TEXT_NOT_FOUND);
+      }
+    });
+};
 
 const renderMoviesList = (data) => {
-    movieSearchListNode.innerHTML = '';
-    data.Search.forEach((movie) => {
-  
-      const movieFeatures = document.createElement('li');
-      movieFeatures.classList.add('movie-item');
-      movieFeatures.setAttribute('id', `${movie.imdbID} `);
-  
-      if (movie.Poster !== 'N/A') {
-        moviePoster = movie.Poster;
-      } 
-      if (movie.Poster == 'N/A') {
-        moviePoster = 'resources/movie-not-found.webp'
-      }
-  
-      movieFeatures.innerHTML = `
+
+  movieSearchListNode.innerHTML = "";
+
+  data.Search.forEach((movie) => {
+
+    const movieFeatures = document.createElement("li");
+
+    movieFeatures.classList.add("movie-item");
+    movieFeatures.setAttribute("id", `${movie.imdbID}`);
+
+    if (movie.Poster !== "N/A") {
+      moviePoster = movie.Poster;
+    }
+    if (movie.Poster == "N/A") {
+      moviePoster = "resources/movie-not-found.webp";
+    }
+
+    movieFeatures.innerHTML = `
       
       <img
-      class="movie-features_img"
+      class="movie-features-img"
       src="${moviePoster}"
       alt="Превью фильма"
     />
@@ -72,46 +73,49 @@ const renderMoviesList = (data) => {
       </div>
      
     `;
-  
-    movieSearchListNode.appendChild(movieFeatures);
-    });
 
-    searchMovieLoad();
-  }
+    movieSearchListNode.appendChild(movieFeatures);
+  });
+
+  searchMovieLoad();
+};
 
 const searchMovieLoad = () => {
-    const searchMovieItem = searchListNode.querySelectorAll('li');
 
-  searchMovieItem.forEach(movie => {
-    movie.addEventListener('click', function () {
-      fetch(`https://www.omdbapi.com/?i=${movie.getAttribute('id')}&apikey=8a6b6056`)
-        .then(response => response.json())
+  const searchMovieItem = movieSearchListNode.querySelectorAll("li");
+
+  searchMovieItem.forEach((movie) => {
+    movie.addEventListener("click", function () {
+      fetch(
+        `https://www.omdbapi.com/?i=${movie.getAttribute("id")}&apikey=8a6b6056`
+      )
+        .then((response) => response.json())
         .then((dataCard) => {
-          renderMovieCard(dataCard);
-          hideListNode.classList.add('hide-list')
-          cardDetailsNode.classList.remove('card-details')
+          movieSearchRenderCard(dataCard);
+          movieSearchHideNode.classList.add("movie-search-app-hide");
+          moviesSearchCardNode.classList.remove("movie-search-card");
         });
     });
   });
-}
+};
 
-const movieSearchRenderCard = () => {
-    const movieSearchElement = document.createElement('div');
-    movieSearchElement.classList.add('movie-card');
+const movieSearchRenderCard = (dataCard) => {
+  const movieSearchElement = document.createElement("div");
+  movieSearchElement.classList.add("movie-card");
 
-  if (dataCard.Poster !== 'N/A') {
+  if (dataCard.Poster !== "N/A") {
     dataCardPoster = dataCard.Poster;
-  } 
+  }
 
-  if (dataCard.Poster == 'N/A')  {
-    dataCardPoster = 'resources/movie-not-found.webp'
-  };
+  if (dataCard.Poster == "N/A") {
+    dataCardPoster = "resources/movie-not-found.webp";
+  }
 
   movieSearchElement.innerHTML = `
   
-  <a class="card_link" onclick="hideCard()">Back</a>
+<a class="card-link" onclick="movieSearchAddCard()">←</a>
   <div class="movie-search-card-wrapper">
-    <div class="movie-search-list">
+    <div class="movie-search-card-list">
       <img
         src="${dataCardPoster}"
         alt=""
@@ -119,7 +123,7 @@ const movieSearchRenderCard = () => {
       />
       <div class="movie-search-card-description">
         <h1 class="movie-search-card-title">${dataCard.Title}</h1>
-        <ul class="movie-search-card-list">
+        <ul class="movie-search-card-list-inner">
           <li class="movie-search-card-item">
             Year:<span class="color">${dataCard.Year}</span>
           </li>
@@ -152,14 +156,13 @@ const movieSearchRenderCard = () => {
   ${dataCard.Plot}
   </p>
         `;
-    moviesSearchCardNode.appendChild(movieSearchElement);
-}
+  moviesSearchCardNode.appendChild(movieSearchElement);
+};
 
-
-
-
+const movieSearchAddCard = () => {
+  moviesSearchCardNode.classList.add("movie-search-card");
+  movieSearchHideNode.classList.remove("movie-search-app-hide");
+  moviesSearchCardNode.innerHTML = "";
+};
 
 movieSearchButtonNode.addEventListener("click", movieSearchHandler);
-
-
-
