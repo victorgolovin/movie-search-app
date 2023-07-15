@@ -1,26 +1,20 @@
-// const movies = [];
 
 const movieSearchInput = document.getElementById("movie-search-app-input")
 const movieSearchButton = document.getElementById("movie-search-app-button")
 
 const movieHandler = () => {
-    fetch("http://www.omdbapi.com/?i=tt3896198&apikey=8a6b6056")
-        .then(Response => Response.json())
-        .then(json => {
-            const movieSearch = json;
-
-            document.getElementById("movie-search-list").innerHTML = `
-            <p>
-            ${movieSearch}
-            </p>
-                `;
-        });
+    fetch("https://www.omdbapi.com/?s=fast&apikey=8a6b6056")
+        .then(data => data.json())
+        .then(res => console.log(res));
 };
 
 const addMovie = () => {
-
+    movies.push 
 };
 
 
 
 movieSearchButton.addEventListener("click", movieHandler);
+
+
+
