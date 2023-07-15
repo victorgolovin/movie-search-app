@@ -75,12 +75,84 @@ const renderMoviesList = (data) => {
   
     movieSearchListNode.appendChild(movieFeatures);
     });
-    
+
     searchMovieLoad();
   }
 
 const searchMovieLoad = () => {
+    const searchMovieItem = searchListNode.querySelectorAll('li');
 
+  searchMovieItem.forEach(movie => {
+    movie.addEventListener('click', function () {
+      fetch(`https://www.omdbapi.com/?i=${movie.getAttribute('id')}&apikey=8a6b6056`)
+        .then(response => response.json())
+        .then((dataCard) => {
+          renderMovieCard(dataCard);
+          hideListNode.classList.add('hide-list')
+          cardDetailsNode.classList.remove('card-details')
+        });
+    });
+  });
+}
+
+const movieSearchRenderCard = () => {
+    const movieSearchElement = document.createElement('div');
+    movieSearchElement.classList.add('movie-card');
+
+  if (dataCard.Poster !== 'N/A') {
+    dataCardPoster = dataCard.Poster;
+  } 
+
+  if (dataCard.Poster == 'N/A')  {
+    dataCardPoster = 'resources/movie-not-found.webp'
+  };
+
+  movieSearchElement.innerHTML = `
+  
+  <a class="card_link" onclick="hideCard()">Back</a>
+  <div class="movie-search-card-wrapper">
+    <div class="movie-search-list">
+      <img
+        src="${dataCardPoster}"
+        alt=""
+        class="movie-search-card-img"
+      />
+      <div class="movie-search-card-description">
+        <h1 class="movie-search-card-title">${dataCard.Title}</h1>
+        <ul class="movie-search-card-list">
+          <li class="movie-search-card-item">
+            Year:<span class="color">${dataCard.Year}</span>
+          </li>
+          <li class="movie-search-card-item">
+            Rated:<span class="color">${dataCard.Rated}</span>
+          </li>
+          <li class="movie-search-card-item">
+            Released:<span class="color">${dataCard.Released}</span>
+          </li>
+          <li class="movie-search-card-item">
+            Runtime:<span class="color">${dataCard.Runtime}</span>
+          </li>
+          <li class="movie-search-card-item">
+            Genre:<span class="color">${dataCard.Genre}</span>
+          </li>
+          <li class="movie-search-card-item">
+            Director:<span class="color">${dataCard.Director}</span>
+          </li>
+          <li class="movie-search-card-item">
+            Writer:<span class="color">${dataCard.Writer}</span>
+          </li>
+          <li class="movie-search-card-item">
+            Actors:<span class="color">${dataCard.Actors}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p class="movie-description">
+  ${dataCard.Plot}
+  </p>
+        `;
+    moviesSearchCardNode.appendChild(movieSearchElement);
 }
 
 
