@@ -45,7 +45,7 @@ const renderMoviesList = (data) => {
 
   movieSearchListNode.innerHTML = "";
 
-  data.Search.forEach((movie) => {
+  data.search.forEach((movie) => {
 
     const movieFeatures = document.createElement("li");
 
@@ -85,7 +85,7 @@ const searchMovieLoad = () => {
   const searchMovieItem = movieSearchListNode.querySelectorAll("li");
 
   searchMovieItem.forEach((movie) => {
-    movie.addEventListener("click", function () {
+    movie.addEventListener("click", () => {
       fetch(
         `https://www.omdbapi.com/?i=${movie.getAttribute("id")}&apikey=8a6b6056`
       )
