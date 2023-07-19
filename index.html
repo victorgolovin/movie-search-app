@@ -11,24 +11,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="movie-search-app-hide" class="movie-search-app">
-        <div class="movie-search-app-inner">
-            <input 
-            id="movie-search-app-input"
-            class="movie-search-app-input"
-            type="text"
-            placeholder="Название фильма">
-    
-            <button id="movie-search-app-button" class="movie-search-app-button">Найти</button>
+    <div class="container">
+        <div id="movie-search-app-hide" class="movie-search-app">
+            <div class="movie-search-app-inner">
+                <input 
+                id="movie-search-app-input"
+                class="movie-search-app-input"
+                type="text"
+                placeholder="Название фильма">
+        
+                <button id="movie-search-app-button" class="movie-search-app-button">Найти</button>
+            </div>
+        
+            <div id="movie-search-validation" class="movie-search-validation"></div>
+        
+            <ul id="movie-search-list" class="movie-search-list"></ul>
         </div>
     
-        <div id="movie-search-validation" class="movie-search-validation"></div>
+        <div id="movie-search-card" class="movie-search-card"></div>
     
-        <ul id="movie-search-list" class="movie-search-list"></ul>
     </div>
-
-    <div id="movie-search-card" class="movie-search-card"></div>
-
+    
     <script src="index.js"></script>
 </body>
 </html>

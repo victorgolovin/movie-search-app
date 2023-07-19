@@ -1,5 +1,5 @@
-const MOVIE_SEARCH_TEXT_NOT_FOUND = "Фильм не найден";
-const MOVIE_SEARCH_TEXT_FILMS_NOT_FOUND = "movie-search-validation";
+const MOVIE_SEARCH_TEXT_NOT_FOUND_TEXT = "Фильм не найден";
+const MOVIE_SEARCH_TEXT_NOT_FOUND_FILMS = "movie-search-validation";
 
 const movieSearchInputNode = document.getElementById("movie-search-app-input");
 const movieSearchButtonNode = document.getElementById("movie-search-app-button");
@@ -11,8 +11,8 @@ const movieSearchHideNode = document.getElementById("movie-search-app-hide");
 const movieSearchHandler = () => {
   const searchMovie = movieSearchInputNode.value.trim();
   if (!searchMovie) {
-    movieSearchValidationNode.classList.add(MOVIE_SEARCH_TEXT_FILMS_NOT_FOUND);
-    return (movieSearchValidationNode.innerText = MOVIE_SEARCH_TEXT_NOT_FOUND);
+    movieSearchValidationNode.classList.add(MOVIE_SEARCH_TEXT_NOT_FOUND_FILMS);
+    return (movieSearchValidationNode.innerText = MOVIE_SEARCH_TEXT_NOT_FOUND_TEXT);
   }
 
   if (searchMovie) {
@@ -24,7 +24,7 @@ const movieSearchHandler = () => {
 };
 
 const clearSearchInput = () => {
-    movieSearchInputNode.value = "";
+  movieSearchInputNode.value = "";
 };
 
 const movieSearchGetMovies = (searchMovie) => {
@@ -35,18 +35,16 @@ const movieSearchGetMovies = (searchMovie) => {
         renderMoviesList(data);
       }
       if (!data.Response) {
-        outputNode.classList.add(MOVIE_SEARCH_TEXT_FILMS_NOT_FOUND);
-        return (outputNode.innerText = MOVIE_SEARCH_TEXT_NOT_FOUND);
+        movieSearchValidationNode.classList.add(MOVIE_SEARCH_TEXT_NOT_FOUND_FILMS);
+        return (movieSearchValidationNode.innerText = MOVIE_SEARCH_TEXT_NOT_FOUND_TEXT);
       }
     });
 };
 
 const renderMoviesList = (data) => {
-
   movieSearchListNode.innerHTML = "";
 
-  data.search.forEach((movie) => {
-
+  data.Search.forEach((movie) => {
     const movieFeatures = document.createElement("li");
 
     movieFeatures.classList.add("movie-item");
@@ -81,11 +79,10 @@ const renderMoviesList = (data) => {
 };
 
 const searchMovieLoad = () => {
-
   const searchMovieItem = movieSearchListNode.querySelectorAll("li");
 
   searchMovieItem.forEach((movie) => {
-    movie.addEventListener("click", () => {
+    movie.addEventListener("click", function () {
       fetch(
         `https://www.omdbapi.com/?i=${movie.getAttribute("id")}&apikey=8a6b6056`
       )
